@@ -996,7 +996,7 @@ export const buscarJugadorPorCarnet = async (req: AuthRequest, res: Response) =>
     console.log('buscarJugadorPorCarnet - buscarTodasFederaciones:', buscarTodasFederaciones);
 
     // Determinar si debe buscar sin filtro de federación
-    const sinFiltroFederacion = buscarTodasFederaciones === 'true' || buscarTodasFederaciones === true;
+    const sinFiltroFederacion = buscarTodasFederaciones === 'true';
 
     // Determinar si el torneo es mundial (solo si no se está usando el checkbox)
     let esTorneoMundial = false;
@@ -1120,7 +1120,7 @@ export const buscarJugadorPorNombre = async (req: AuthRequest, res: Response) =>
     console.log('buscarJugadorPorNombre - buscarTodasFederaciones:', buscarTodasFederaciones);
 
     // Determinar si debe buscar sin filtro de federación
-    const sinFiltroFederacion = buscarTodasFederaciones === 'true' || buscarTodasFederaciones === true;
+    const sinFiltroFederacion = buscarTodasFederaciones === 'true';
 
     // Determinar si el torneo es mundial (solo si no se está usando el checkbox)
     let esTorneoMundial = false;
