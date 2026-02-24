@@ -41,7 +41,7 @@ module.exports = {
       // Producción
       env_production: {
         NODE_ENV: 'production',
-        PORT: 3001,
+        PORT: 3003,
         DB_HOST: '127.0.0.1',
         DB_PORT: 3306,
         DB_USER: 'domino_user',
