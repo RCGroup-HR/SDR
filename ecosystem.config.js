@@ -44,7 +44,7 @@ module.exports = {
         PORT: 3003,
         DB_HOST: '127.0.0.1',
         DB_PORT: 3306,
-        DB_USER: 'domino_user',
+        DB_USER: 'sdr_app',
         DB_NAME: 'sdr_web',
         JWT_EXPIRES_IN: '24h',
         FRONTEND_URL: 'https://estadísticasdeldomino.lat'
