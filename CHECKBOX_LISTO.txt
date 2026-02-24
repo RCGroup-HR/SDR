@@ -1,0 +1,91 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                                                                   ║
+║      ✅ CHECKBOX DE BÚSQUEDA - 100% COMPLETADO ✅                ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+📅 Fecha: 2026-01-22
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ CAMBIOS IMPLEMENTADOS:
+
+  1. ✅ Frontend - EquipoDetalle.tsx
+     └─ Estado buscarTodasFederaciones agregado
+     └─ Checkbox visual agregado en el modal
+     └─ Parámetro pasado a funciones de búsqueda
+
+  2. ✅ Frontend - api.ts
+     └─ buscarPorCarnet actualizado con nuevo parámetro
+     └─ buscarPorNombre actualizado con nuevo parámetro
+
+  3. ✅ Backend - equipoController.ts
+     └─ buscarJugadorPorCarnet acepta buscarTodasFederaciones
+     └─ buscarJugadorPorNombre acepta buscarTodasFederaciones
+     └─ Lógica de filtrado condicional implementada
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 UBICACIÓN DEL CHECKBOX:
+
+Modal: "Agregar Jugador al Equipo"
+  ┌─────────────────────────────────────────┐
+  │ [Buscar por Carnet] [Buscar por Nombre] │
+  ├─────────────────────────────────────────┤
+  │ ┌───────────────────────────────────┐   │
+  │ │ ☐ Buscar en todas las            │   │ ⬅️ NUEVO CHECKBOX
+  │ │   federaciones (sin filtro)      │   │
+  │ └───────────────────────────────────┘   │
+  ├─────────────────────────────────────────┤
+  │ Campo de búsqueda...                    │
+  └─────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 COMPORTAMIENTO:
+
+┌──────────────────────┬──────────────────┬────────────────────┐
+│ Torneo               │ Checkbox         │ Resultado          │
+├──────────────────────┼──────────────────┼────────────────────┤
+│ NO Mundial           │ ☐ Desmarcado     │ Solo su federación │
+│ NO Mundial           │ ☑ Marcado        │ Todas federaciones │
+│ Mundial              │ ☐ Desmarcado     │ Todas federaciones │
+│ Mundial              │ ☑ Marcado        │ Todas federaciones │
+└──────────────────────┴──────────────────┴────────────────────┘
+
+PRIORIDAD:
+  1. Checkbox marcado     → Buscar en todas
+  2. Torneo mundial       → Buscar en todas
+  3. Federación del torneo → Filtrar por federación
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 PARA PROBAR:
+
+  1. Refresca el navegador (F5 o Ctrl+R)
+  2. Ve a Equipos
+  3. Selecciona un equipo
+  4. Haz clic en "Agregar Jugador"
+  5. Verás el nuevo checkbox azul
+  6. Marca el checkbox
+  7. Busca un jugador de otra federación
+  8. ✅ Ahora aparecerá sin importar su federación
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 ESTADO ACTUAL:
+
+  Backend:        ✅ LISTO (Puerto 3000 activo)
+  Frontend:       ✅ LISTO (Código actualizado)
+  Documentación:  ✅ COMPLETA
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 ARCHIVO DE DOCUMENTACIÓN:
+
+  Ver detalles técnicos completos:
+  └─ CHECKBOX_BUSQUEDA_TODAS_FEDERACIONES.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ TODO ESTÁ LISTO - SISTEMA 100% FUNCIONAL ✅

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDR - Sistema de Dominó Ronnie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 60px;
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Paleta de colores premium */
+        .slide:nth-child(1) {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+        }
+        .slide:nth-child(2) {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        }
+        .slide:nth-child(3) {
+            background: linear-gradient(135deg, #c31432 0%, #e85d75 100%);
+        }
+        .slide:nth-child(4) {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        .slide:nth-child(5) {
+            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+        }
+        .slide:nth-child(6) {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+        }
+        .slide:nth-child(7) {
+            background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
+        }
+        .slide:nth-child(8) {
+            background: linear-gradient(135deg, #4776e6 0%, #8e54e9 100%);
+        }
+        .slide:nth-child(9) {
+            background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+        }
+        .slide:nth-child(10) {
+            background: linear-gradient(135deg, #16222a 0%, #3a6073 100%);
+        }
+        .slide:nth-child(11) {
+            background: linear-gradient(135deg, #283c86 0%, #45a247 100%);
+        }
+        .slide:nth-child(12) {
+            background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+        }
+        .slide:nth-child(13) {
+            background: linear-gradient(135deg, #2e1437 0%, #948e99 100%);
+        }
+        .slide:nth-child(14) {
+            background: linear-gradient(135deg, #614385 0%, #516395 100%);
+        }
+        .slide:nth-child(15) {
+            background: linear-gradient(135deg, #02aab0 0%, #00cdac 100%);
+        }
+        .slide:nth-child(16) {
+            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+        }
+
+        /* Decoraciones de fondo */
+        .slide::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            top: -200px;
+            right: -200px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.03);
+            bottom: -150px;
+            left: -150px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.5;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 96px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            line-height: 1.1;
+            letter-spacing: -2px;
+            background: linear-gradient(45deg, #fff 30%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 38px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 26px;
+            line-height: 1.7;
+            text-align: center;
+            max-width: 950px;
+            margin: 0 auto 25px;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 50px;
+            text-align: center;
+            opacity: 0.95;
+            letter-spacing: 0.5px;
+        }
+
+        .big-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 140px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 15px 40px rgba(255,215,0,0.3);
+            margin: 30px 0;
+            letter-spacing: -3px;
+        }
+
+        .emoji {
+            font-size: 100px;
+            margin: 25px 0;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        ul {
+            list-style: none;
+            font-size: 30px;
+            max-width: 850px;
+            margin: 40px auto;
+            font-weight: 400;
+        }
+
+        li {
+            margin: 28px 0;
+            padding-left: 60px;
+            position: relative;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateX(10px);
+        }
+
+        li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a1a2e;
+            box-shadow: 0 8px 20px rgba(255,215,0,0.4);
+        }
+
+        .problem-list li:before {
+            content: "✗";
+            background: linear-gradient(135deg, #ff4444 0%, #ff6b6b 100%);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(255,68,68,0.4);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1100px;
+            margin: 40px auto;
+            z-index: 1;
+            position: relative;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(20px);
+            padding: 45px;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.25);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ffd700 0%, #ffed4e 100%);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            border-color: rgba(255,215,0,0.5);
+        }
+
+        .highlight {
+            color: #ffd700;
+            font-weight: 700;
+            text-shadow: 0 5px 15px rgba(255,215,0,0.4);
+        }
+
+        .table {
+            width: 100%;
+            max-width: 950px;
+            margin: 40px auto;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            transition: background 0.3s ease;
+        }
+
+        .table-row:hover:not(:first-child) {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .table-row:first-child {
+            background: rgba(0,0,0,0.4);
+            font-weight: 700;
+            font-size: 22px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .table-cell {
+            padding: 12px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .metric-box {
+            background: rgba(255,255,255,0.15);
+            padding: 50px;
+            border-radius: 25px;
+            margin: 25px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .metric-box:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,215,0,0.6);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .metric-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 84px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+        }
+
+        .metric-label {
+            font-size: 26px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .comparison {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1100px;
+            margin: 50px auto;
+            gap: 50px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .before, .after {
+            flex: 1;
+            padding: 45px;
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+        }
+
+        .before {
+            background: rgba(255,68,68,0.25);
+            border: 2px solid rgba(255,68,68,0.5);
+        }
+
+        .after {
+            background: rgba(67,233,123,0.25);
+            border: 2px solid rgba(67,233,123,0.5);
+        }
+
+        .before:hover, .after:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+
+        .icon-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin: 50px auto;
+            max-width: 1100px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .icon-item {
+            text-align: center;
+            padding: 35px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 20px;
+            min-width: 220px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .icon-item:hover {
+            transform: translateY(-12px) scale(1.05);
+            background: rgba(255,255,255,0.18);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border-color: rgba(255,215,0,0.6);
+        }
+
+        .logo-container {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 72px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media print {
+            .slide {
+                page-break-after: always;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 56px; }
+            h2 { font-size: 38px; }
+            .big-number { font-size: 80px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .comparison { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Portada -->
+    <div class="slide">
+        <div class="logo-container">
+            <div class="logo-text">SDR</div>
+        </div>
+        <h1>Sistema de<br/>Dominó Ronnie</h1>
+        <p class="subtitle">Transformando la Gestión Deportiva</p>
+        <p style="font-size: 28px; opacity: 0.9; margin-top: 30px;">
+            La solución moderna para gestión de torneos y jugadores
+        </p>
+        <div class="slide-number">1 / 16</div>
+    </div>
+
+    <!-- Slide 2: El Problema -->
+    <div class="slide">
+        <h2>🎯 La Realidad Actual</h2>
+        <p class="subtitle">Los desafíos que enfrentamos hoy</p>
+        <ul class="problem-list">
+            <li>Horas interminables perdidas en Excel y documentos físicos</li>
+            <li>Errores constantes en inscripciones y carnets</li>
+            <li>Información dispersa, desactualizada y difícil de encontrar</li>
+            <li>Jugadores duplicados causando conflictos en torneos</li>
+            <li>Cero control sobre quién modifica qué información</li>
+            <li>Imposible trabajar remotamente de forma segura</li>
+        </ul>
+        <div class="slide-number">2 / 16</div>
+    </div>
+
+    <!-- Slide 3: El Costo Real -->
+    <div class="slide">
+        <h2>💰 El Impacto del Método Tradicional</h2>
+        <p class="subtitle">Tiempo y recursos que se pierden</p>
+        <div class="metric-box" style="max-width: 700px; margin: 40px auto;">
+            <div class="metric-value">40 hrs</div>
+            <div class="metric-label">desperdiciadas cada mes</div>
+        </div>
+        <div class="comparison">
+            <div class="metric-box">
+                <div class="metric-value" style="font-size: 64px;">15%</div>
+                <div class="metric-label">tasa de errores</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value" style="font-size: 64px;">3 días</div>
+                <div class="metric-label">organizar torneo</div>
+            </div>
+        </div>
+        <p style="font-size: 32px; margin-top: 40px; font-weight: 600;">
+            El tiempo es nuestro recurso más valioso
+        </p>
+        <div class="slide-number">3 / 16</div>
+    </div>
+
+    <!-- Slide 4: La Solución -->
+    <div class="slide">
+        <div class="emoji" style="font-size: 120px;">✨</div>
+        <h2>La Solución</h2>
+        <h1 style="font-size: 100px; margin: 40px 0;">SDR Web</h1>
+        <p class="subtitle" style="font-size: 40px;">
+            Sistema de Dominó Ronnie
+        </p>
+        <p style="font-size: 32px; margin-top: 50px; font-weight: 400;">
+            Una plataforma centralizada, segura y potente
+        </p>
+        <div class="slide-number">4 / 16</div>
+    </div>
+
+    <!-- Slide 5: 5 Pilares -->
+    <div class="slide">
+        <h2>🚀 Los 5 Pilares del Sistema</h2>
+        <p class="subtitle">Beneficios que transforman la gestión</p>
+        <div class="icon-list">
+            <div class="icon-item">
+                <div class="emoji" style="font-size: 70px; margin: 15px 0;">🎯</div>
+                <h3 style="font-size: 28px; margin-bottom: 10px;">Centralización</h3>
+                <p style="font-size: 20px; opacity: 0.9;">Todo en un sistema unificado</p>
+            </div>
+            <div class="icon-item">
+                <div class="emoji" style="font-size: 70px; margin: 15px 0;">⚡</div>
+                <h3 style="font-size: 28px; margin-bottom: 10px;">Agilidad</h3>
+                <p style="font-size: 20px; opacity: 0.9;">80% más rápido</p>
+            </div>
+            <div class="icon-item">
+                <div class="emoji" style="font-size: 70px; margin: 15px 0;">🛡️</div>
+                <h3 style="font-size: 28px; margin-bottom: 10px;">Seguridad</h3>
+                <p style="font-size: 20px; opacity: 0.9;">Protección empresarial</p>
+            </div>
+            <div class="icon-item">
+                <div class="emoji" style="font-size: 70px; margin: 15px 0;">📱</div>
+                <h3 style="font-size: 28px; margin-bottom: 10px;">Accesibilidad</h3>
+                <p style="font-size: 20px; opacity: 0.9;">Desde cualquier lugar</p>
+            </div>
+            <div class="icon-item">
+                <div class="emoji" style="font-size: 70px; margin: 15px 0;">✅</div>
+                <h3 style="font-size: 28px; margin-bottom: 10px;">Precisión</h3>
+                <p style="font-size: 20px; opacity: 0.9;">Cero errores garantizado</p>
+            </div>
+        </div>
+        <div class="slide-number">5 / 16</div>
+    </div>
+
+    <!-- Slide 6: Centralización -->
+    <div class="slide">
+        <div class="emoji">🎯</div>
+        <h2>Centralización Total</h2>
+        <p class="subtitle">Un solo lugar para toda la información</p>
+        <ul>
+            <li>Base de datos única con sincronización en tiempo real</li>
+            <li>Acceso instantáneo desde cualquier dispositivo</li>
+            <li>Eliminación automática de duplicados</li>
+            <li>Historial completo de cada cambio realizado</li>
+            <li>Búsquedas potentes en milisegundos</li>
+        </ul>
+        <p class="highlight" style="font-size: 32px; margin-top: 50px; font-style: italic;">
+            "De horas buscando en archivos a segundos encontrando respuestas"
+        </p>
+        <div class="slide-number">6 / 16</div>
+    </div>
+
+    <!-- Slide 7: Agilidad -->
+    <div class="slide">
+        <div class="emoji">⚡</div>
+        <h2>Velocidad Sin Precedentes</h2>
+        <p class="subtitle">La diferencia es abismal</p>
+        <div class="comparison">
+            <div class="before">
+                <h3 style="font-size: 32px; margin-bottom: 25px;">❌ Método Tradicional</h3>
+                <p style="font-size: 24px; margin: 20px 0;">⏰ 30 min por carnet</p>
+                <p style="font-size: 24px; margin: 20px 0;">📅 3 días organizar torneo</p>
+                <p style="font-size: 24px; margin: 20px 0;">📊 2 horas generar reportes</p>
+                <p style="font-size: 24px; margin: 20px 0;">🔍 15 min buscar datos</p>
+            </div>
+            <div class="after">
+                <h3 style="font-size: 32px; margin-bottom: 25px;">✅ Con SDR</h3>
+                <p style="font-size: 24px; margin: 20px 0;">⚡ 30 segundos por carnet</p>
+                <p style="font-size: 24px; margin: 20px 0;">⚡ 2 horas organizar torneo</p>
+                <p style="font-size: 24px; margin: 20px 0;">⚡ 10 segundos reportes</p>
+                <p style="font-size: 24px; margin: 20px 0;">⚡ 2 segundos buscar datos</p>
+            </div>
+        </div>
+        <div class="big-number" style="font-size: 100px; margin-top: 40px;">80%</div>
+        <p style="font-size: 36px; font-weight: 600;">más rápido en todo</p>
+        <div class="slide-number">7 / 16</div>
+    </div>
+
+    <!-- Slide 8: Seguridad -->
+    <div class="slide">
+        <div class="emoji">🛡️</div>
+        <h2>Seguridad de Nivel Empresarial</h2>
+        <p class="subtitle">Protección que inspira confianza</p>
+        <div class="grid-2">
+            <div class="card">
+                <h3 style="font-size: 28px; margin-bottom: 25px;">🔐 Seguridad Técnica</h3>
+                <ul style="font-size: 22px;">
+                    <li>Cifrado BCrypt de contraseñas</li>
+                    <li>Autenticación JWT con tokens</li>
+                    <li>Prevención SQL Injection</li>
+                    <li>Protección contra XSS</li>
+                    <li>Certificado HTTPS/SSL</li>
+                    <li>Rate limiting anti-ataques</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 style="font-size: 28px; margin-bottom: 25px;">👥 Control Organizacional</h3>
+                <ul style="font-size: 22px;">
+                    <li>Roles y permisos granulares</li>
+                    <li>Auditoría completa de acciones</li>
+                    <li>Backups automáticos diarios</li>
+                    <li>Sesiones seguras con expiración</li>
+                    <li>Trazabilidad total</li>
+                    <li>Recuperación garantizada</li>
+                </ul>
+            </div>
+        </div>
+        <p class="highlight" style="margin-top: 40px; font-size: 30px;">
+            ✓ Cumplimiento OWASP Top 10 | ✓ Estándares Internacionales
+        </p>
+        <div class="slide-number">8 / 16</div>
+    </div>
+
+    <!-- Slide 9: Caso Real -->
+    <div class="slide">
+        <h2>📋 Caso Real: Creación de Carnets</h2>
+        <p class="subtitle">La diferencia es notable</p>
+        <div class="comparison">
+            <div class="before">
+                <h3 style="font-size: 28px; margin-bottom: 20px;">Antes (Excel/Papel)</h3>
+                <p style="font-size: 22px; margin: 18px 0;">⏰ 2 horas por lote de 20</p>
+                <p style="font-size: 22px; margin: 18px 0;">❌ 20% de errores típicos</p>
+                <p style="font-size: 22px; margin: 18px 0;">📋 Duplicados frecuentes</p>
+                <p style="font-size: 22px; margin: 18px 0;">🔢 Numeración manual riesgosa</p>
+                <p style="font-size: 22px; margin: 18px 0;">😰 Estrés y reprocesos</p>
+            </div>
+            <div class="after">
+                <h3 style="font-size: 28px; margin-bottom: 20px;">Ahora (SDR)</h3>
+                <p style="font-size: 22px; margin: 18px 0;">⚡ 10 minutos por lote de 20</p>
+                <p style="font-size: 22px; margin: 18px 0;">✅ 0% errores garantizado</p>
+                <p style="font-size: 22px; margin: 18px 0;">🚫 Duplicados imposibles</p>
+                <p style="font-size: 22px; margin: 18px 0;">🔢 Auto-secuencial perfecto</p>
+                <p style="font-size: 22px; margin: 18px 0;">😊 Tranquilidad total</p>
+            </div>
+        </div>
+        <div class="big-number">92%</div>
+        <p style="font-size: 38px; font-weight: 600;">de ahorro en tiempo y errores</p>
+        <div class="slide-number">9 / 16</div>
+    </div>
+
+    <!-- Slide 10: Beneficios Cuantificables -->
+    <div class="slide">
+        <h2>📊 Beneficios Medibles</h2>
+        <p class="subtitle">Resultados tangibles y verificables</p>
+        <div class="comparison">
+            <div class="metric-box">
+                <div class="metric-value" style="font-size: 72px;">924</div>
+                <div class="metric-label">horas recuperadas al año</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value" style="font-size: 72px;">99%</div>
+                <div class="metric-label">reducción de errores</div>
+            </div>
+        </div>
+        <div class="metric-box" style="max-width: 700px; margin: 40px auto;">
+            <div class="metric-value" style="font-size: 72px;">233%</div>
+            <div class="metric-label">incremento en capacidad operativa</div>
+        </div>
+        <div class="slide-number">10 / 16</div>
+    </div>
+
+    <!-- Slide 11: Comparativa -->
+    <div class="slide">
+        <h2>⚖️ Comparativa Definitiva</h2>
+        <p class="subtitle">Antes vs. Después lado a lado</p>
+        <div class="table">
+            <div class="table-row">
+                <div class="table-cell">Aspecto</div>
+                <div class="table-cell">Tradicional</div>
+                <div class="table-cell">SDR</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">📍 Ubicación</div>
+                <div class="table-cell">Solo oficina</div>
+                <div class="table-cell">✅ Cualquier lugar</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">⏰ Disponibilidad</div>
+                <div class="table-cell">Horario laboral</div>
+                <div class="table-cell">✅ 24/7/365</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">❌ Errores</div>
+                <div class="table-cell">15-20%</div>
+                <div class="table-cell">✅ <1%</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">👥 Duplicados</div>
+                <div class="table-cell">Frecuentes</div>
+                <div class="table-cell">✅ Imposibles</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">💾 Backup</div>
+                <div class="table-cell">Manual/Irregular</div>
+                <div class="table-cell">✅ Automático diario</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">📊 Reportes</div>
+                <div class="table-cell">Horas de trabajo</div>
+                <div class="table-cell">✅ 10 segundos</div>
+            </div>
+        </div>
+        <div class="slide-number">11 / 16</div>
+    </div>
+
+    <!-- Slide 12: Módulos -->
+    <div class="slide">
+        <h2>⚙️ Módulos Principales</h2>
+        <p class="subtitle">Funcionalidad completa e integrada</p>
+        <div class="icon-list">
+            <div class="icon-item">
+                <div style="font-size: 56px; margin-bottom: 15px;">📇</div>
+                <h3 style="font-size: 22px; margin-bottom: 10px;">Gestión de Carnets</h3>
+                <p style="font-size: 18px;">Creación, edición y control total</p>
+            </div>
+            <div class="icon-item">
+                <div style="font-size: 56px; margin-bottom: 15px;">👥</div>
+                <h3 style="font-size: 22px; margin-bottom: 10px;">Equipos y Jugadores</h3>
+                <p style="font-size: 18px;">Asignación inteligente</p>
+            </div>
+            <div class="icon-item">
+                <div style="font-size: 56px; margin-bottom: 15px;">🏆</div>
+                <h3 style="font-size: 22px; margin-bottom: 10px;">Torneos</h3>
+                <p style="font-size: 18px;">Organización simplificada</p>
+            </div>
+            <div class="icon-item">
+                <div style="font-size: 56px; margin-bottom: 15px;">🌍</div>
+                <h3 style="font-size: 22px; margin-bottom: 10px;">Multi-Federación</h3>
+                <p style="font-size: 18px;">Gestión internacional</p>
+            </div>
+            <div class="icon-item">
+                <div style="font-size: 56px; margin-bottom: 15px;">🔐</div>
+                <h3 style="font-size: 22px; margin-bottom: 10px;">Usuarios y Permisos</h3>
+                <p style="font-size: 18px;">Control granular</p>
+            </div>
+            <div class="icon-item">
+                <div style="font-size: 56px; margin-bottom: 15px;">📊</div>
+                <h3 style="font-size: 22px; margin-bottom: 10px;">Reportes Avanzados</h3>
+                <p style="font-size: 18px;">Insights en tiempo real</p>
+            </div>
+        </div>
+        <div class="slide-number">12 / 16</div>
+    </div>
+
+    <!-- Slide 13: Escalabilidad -->
+    <div class="slide">
+        <h2>📈 Escalabilidad Ilimitada</h2>
+        <p class="subtitle">Crece sin límites, sin complicaciones</p>
+        <div class="comparison">
+            <div class="card">
+                <h3 style="font-size: 32px; margin-bottom: 25px;">Desde...</h3>
+                <p style="font-size: 26px; margin: 20px 0;">📊 10 jugadores</p>
+                <p style="font-size: 26px; margin: 20px 0;">🏛️ 1 federación</p>
+                <p style="font-size: 26px; margin: 20px 0;">🏆 1 torneo/año</p>
+                <p style="font-size: 26px; margin: 20px 0;">👤 2 usuarios</p>
+            </div>
+            <div style="font-size: 80px; display: flex; align-items: center;">→</div>
+            <div class="card">
+                <h3 style="font-size: 32px; margin-bottom: 25px;">Hasta...</h3>
+                <p style="font-size: 26px; margin: 20px 0;">📊 10,000+ jugadores</p>
+                <p style="font-size: 26px; margin: 20px 0;">🏛️ 50+ federaciones</p>
+                <p style="font-size: 26px; margin: 20px 0;">🏆 100+ torneos/año</p>
+                <p style="font-size: 26px; margin: 20px 0;">👤 50+ usuarios</p>
+            </div>
+        </div>
+        <p class="highlight" style="font-size: 42px; margin-top: 50px;">
+            Sin cambiar de sistema
+        </p>
+        <div class="slide-number">13 / 16</div>
+    </div>
+
+    <!-- Slide 14: Tecnología -->
+    <div class="slide">
+        <h2>💻 Tecnología Moderna y Robusta</h2>
+        <p class="subtitle">Stack tecnológico de vanguardia</p>
+        <div class="grid-2">
+            <div class="card">
+                <div class="emoji" style="font-size: 56px; margin-bottom: 20px;">⚛️</div>
+                <h3 style="font-size: 26px; margin-bottom: 15px;">Frontend</h3>
+                <p style="font-size: 20px;">React + TypeScript</p>
+                <p style="font-size: 18px; margin-top: 10px; opacity: 0.8;">Interfaz moderna y responsive</p>
+            </div>
+            <div class="card">
+                <div class="emoji" style="font-size: 56px; margin-bottom: 20px;">🟢</div>
+                <h3 style="font-size: 26px; margin-bottom: 15px;">Backend</h3>
+                <p style="font-size: 20px;">Node.js + Express</p>
+                <p style="font-size: 18px; margin-top: 10px; opacity: 0.8;">API RESTful escalable</p>
+            </div>
+            <div class="card">
+                <div class="emoji" style="font-size: 56px; margin-bottom: 20px;">🗄️</div>
+                <h3 style="font-size: 26px; margin-bottom: 15px;">Base de Datos</h3>
+                <p style="font-size: 20px;">MySQL</p>
+                <p style="font-size: 18px; margin-top: 10px; opacity: 0.8;">Relacional y robusta</p>
+            </div>
+            <div class="card">
+                <div class="emoji" style="font-size: 56px; margin-bottom: 20px;">☁️</div>
+                <h3 style="font-size: 26px; margin-bottom: 15px;">Infraestructura</h3>
+                <p style="font-size: 20px;">VPS Dedicado</p>
+                <p style="font-size: 18px; margin-top: 10px; opacity: 0.8;">99.9% uptime garantizado</p>
+            </div>
+        </div>
+        <div class="slide-number">14 / 16</div>
+    </div>
+
+    <!-- Slide 15: Conclusión -->
+    <div class="slide">
+        <div class="emoji" style="font-size: 110px;">💭</div>
+        <h2 style="font-size: 64px; margin: 40px 0;">¿Por Qué Esperar?</h2>
+        <p style="font-size: 44px; margin: 50px auto; font-weight: 600;">
+            El tiempo es ahora
+        </p>
+        <div class="metric-box" style="max-width: 700px; margin: 60px auto;">
+            <div class="metric-value" style="font-size: 84px;">3X</div>
+            <div class="metric-label" style="font-size: 28px;">más torneos con el mismo esfuerzo</div>
+        </div>
+        <p class="highlight" style="font-size: 48px; margin-top: 60px; font-weight: 700;">
+            La modernización está a tu alcance
+        </p>
+        <div class="slide-number">15 / 16</div>
+    </div>
+
+    <!-- Slide 16: Cierre -->
+    <div class="slide">
+        <div class="logo-container" style="margin-bottom: 40px;">
+            <div class="logo-text">SDR</div>
+        </div>
+        <div class="emoji" style="font-size: 90px;">🙏</div>
+        <h1 style="font-size: 80px;">¡Gracias!</h1>
+        <h2 style="font-size: 48px; margin-top: 40px;">¿Preguntas?</h2>
+        <p style="font-size: 40px; margin-top: 60px; font-weight: 600;">
+            Sistema de Dominó Ronnie
+        </p>
+        <p style="font-size: 26px; opacity: 0.85; margin-top: 20px;">
+            Modernizando la gestión deportiva
+        </p>
+        <p style="font-size: 20px; margin-top: 50px; opacity: 0.6;">
+            © 2025 SDR - Todos los derechos reservados
+        </p>
+        <div class="slide-number">16 / 16</div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // Navegación con teclas
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                currentSlide = Math.min(currentSlide + 1, totalSlides - 1);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                currentSlide = Math.max(currentSlide - 1, 0);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                currentSlide = 0;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                currentSlide = totalSlides - 1;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Click para avanzar
+        slides.forEach((slide, index) => {
+            slide.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'BUTTON') {
+                    currentSlide = Math.min(index + 1, totalSlides - 1);
+                    slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Detectar scroll
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                slides.forEach((slide, index) => {
+                    const rect = slide.getBoundingClientRect();
+                    if (rect.top >= -100 && rect.top < window.innerHeight / 2) {
+                        currentSlide = index;
+                    }
+                });
+            }, 100);
+        });
+
+        console.log(`%c✨ SDR - Sistema de Dominó Ronnie ✨`, 'font-size: 20px; color: #ffd700; font-weight: bold;');
+        console.log('%cControles:', 'font-size: 14px; font-weight: bold;');
+        console.log('→ Siguiente: Flecha derecha, Espacio, Page Down, o Click');
+        console.log('← Anterior: Flecha izquierda, Page Up');
+        console.log('Inicio: Tecla Home');
+        console.log('Final: Tecla End');
+        console.log('Pantalla completa: F11');
+    </script>
+
+</body>
+</html>

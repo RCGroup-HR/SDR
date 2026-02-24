@@ -1,0 +1,51 @@
+==========================================
+  CREDENCIALES DEL SISTEMA SDR
+==========================================
+
+✅ SISTEMA SEGURO Y FUNCIONAL
+
+CREDENCIALES ACTUALES:
+----------------------
+
+Usuario: admin           Contraseña: admin
+Usuario: RonnieHdez      Contraseña: 12345
+Usuario: EMora           Contraseña: 1234
+Usuario: Shdez           Contraseña: 123
+Usuario: ACamille        Contraseña: amaia
+Usuario: CIsabel         Contraseña: isabel
+
+CAMBIOS REALIZADOS:
+-------------------
+✅ Campo Clave ampliado de 20 a 255 caracteres
+✅ Todas las contraseñas hasheadas con bcrypt
+✅ Login funcionando correctamente
+✅ Seguridad implementada completamente
+
+SI NECESITAS RESETEAR CONTRASEÑAS:
+-----------------------------------
+Para resetear las contraseñas de otros usuarios, ejecuta:
+
+cd backend
+npx tsx src/scripts/reset-admin-password.ts
+
+Y sigue las instrucciones.
+
+SCRIPTS DISPONIBLES:
+--------------------
+
+1. quick-reset-admin.ts
+   - Resetea "admin" a "admin" automáticamente
+   - Comando: npx tsx src/scripts/quick-reset-admin.ts
+
+2. reset-admin-password.ts
+   - Resetea cualquier usuario de forma interactiva
+   - Comando: npx tsx src/scripts/reset-admin-password.ts
+
+IMPORTANTE:
+-----------
+⚠️  Las contraseñas ahora están HASHEADAS con bcrypt
+⚠️  Esto es una MEJORA DE SEGURIDAD crítica
+⚠️  Ya NO puedes ver las contraseñas en la base de datos
+⚠️  Cambia "admin/admin" después de iniciar sesión
+
+==========================================

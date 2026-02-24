@@ -1,0 +1,51 @@
+/* Reutilizamos los estilos de Equipos.css y MantenimientoUnion.css */
+
+.jugadores-table {
+  font-size: 13px;
+}
+
+.input-editable {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+
+.input-editable:focus {
+  outline: none;
+  border-color: #4a7c9e;
+  background-color: #f0f8ff;
+}
+
+.select-editable {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.select-editable:focus {
+  outline: none;
+  border-color: #4a7c9e;
+  background-color: #f0f8ff;
+}
+
+.modified-row {
+  background-color: #fff3cd !important;
+}
+
+.modified-row:hover {
+  background-color: #ffe69c !important;
+}
+
+.modified-row .input-editable,
+.modified-row .select-editable {
+  border-color: #ffc107;
+  background-color: #fffbf0;
+}

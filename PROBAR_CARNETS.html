@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probar Sistema de Carnets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .test-group {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .test-group h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .test-group p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        button.secondary {
+            background: #6c757d;
+        }
+
+        button.secondary:hover {
+            background: #5a6268;
+        }
+
+        .result {
+            background: #f1f3f5;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge.get { background: #28a745; color: white; }
+        .badge.post { background: #007bff; color: white; }
+        .badge.delete { background: #dc3545; color: white; }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+        }
+
+        .token-input {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-wrapper label {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-wrapper label:hover {
+            background: #5a6268;
+        }
+
+        .preview-img {
+            max-width: 200px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎴 Sistema de Carnets - Pruebas</h1>
+        <p class="subtitle">Prueba todos los endpoints del sistema de carnets</p>
+
+        <!-- Token de autenticación -->
+        <div class="section">
+            <h2>🔐 Autenticación</h2>
+            <div class="test-group">
+                <p>Ingresa tu token de autenticación (obtenlo iniciando sesión en la aplicación)</p>
+                <input type="text" id="token" class="token-input" placeholder="Pega aquí tu token JWT">
+                <p style="font-size: 12px; color: #999;">El token debe tener el formato: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</p>
+            </div>
+        </div>
+
+        <!-- Información del Sistema -->
+        <div class="info-box">
+            <h3>📋 Antes de Comenzar</h3>
+            <ul>
+                <li>Asegúrate de haber ejecutado: <code>instalar-carnets.bat</code></li>
+                <li>El servidor debe estar corriendo en: <code>http://localhost:3000</code></li>
+                <li>Necesitas un token válido (inicia sesión primero)</li>
+                <li>Los directorios se crean automáticamente al subir archivos</li>
+            </ul>
+        </div>
+
+        <!-- 1. Parámetros -->
+        <div class="section">
+            <h2>⚙️ 1. Gestión de Parámetros</h2>
+
+            <div class="test-group">
+                <h3><span class="badge get">GET</span> Obtener parámetros de una federación</h3>
+                <p>ID de Federación:</p>
+                <input type="number" id="fedId1" value="1" placeholder="1">
+                <button onclick="getParametros()">Obtener Parámetros</button>
+                <div id="result-get-params" class="result"></div>
+            </div>
+
+            <div class="test-group">
+                <h3><span class="badge post">POST</span> Crear/Actualizar parámetros</h3>
+                <p>ID Federación:</p>
+                <input type="number" id="fedId2" value="1">
+                <p>Nombre Institución:</p>
+                <input type="text" id="nombreInst" value="Federación Nacional de Dominó">
+                <p>Color Primario:</p>
+                <input type="color" id="colorPrimario" value="#003366">
+                <p>Color Secundario:</p>
+                <input type="color" id="colorSecundario" value="#FFFFFF">
+                <p>Texto al Pie:</p>
+                <input type="text" id="textoPie" value="Carnet Oficial">
+                <p>Vigencia (meses):</p>
+                <input type="number" id="vigencia" value="12">
+                <button onclick="saveParametros()">Guardar Parámetros</button>
+                <div id="result-save-params" class="result"></div>
+            </div>
+
+            <div class="test-group">
+                <h3><span class="badge post">POST</span> Subir Logo</h3>
+                <p>ID Federación:</p>
+                <input type="number" id="fedId3" value="1">
+                <div class="file-input-wrapper">
+                    <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(this)">
+                    <label for="logoFile">Seleccionar Logo</label>
+                </div>
+                <div id="logoPreview"></div>
+                <br><br>
+                <button onclick="uploadLogo()">Subir Logo</button>
+                <div id="result-upload-logo" class="result"></div>
+            </div>
+        </div>
+
+        <!-- 2. Fotos de Carnets -->
+        <div class="section">
+            <h2>📷 2. Gestión de Fotos</h2>
+
+            <div class="test-group">
+                <h3><span class="badge post">POST</span> Subir foto de carnet</h3>
+                <p>ID del Carnet:</p>
+                <input type="number" id="carnetId1" placeholder="Ej: 1">
+                <div class="file-input-wrapper">
+                    <input type="file" id="fotoFile" accept="image/*" onchange="previewFoto(this)">
+                    <label for="fotoFile">Seleccionar Foto</label>
+                </div>
+                <div id="fotoPreview"></div>
+                <br><br>
+                <button onclick="uploadFoto()">Subir Foto</button>
+                <div id="result-upload-foto" class="result"></div>
+            </div>
+
+            <div class="test-group">
+                <h3><span class="badge get">GET</span> Ver foto de carnet</h3>
+                <p>ID del Carnet:</p>
+                <input type="number" id="carnetId2" placeholder="Ej: 1">
+                <button onclick="viewFoto()">Ver Foto</button>
+                <div id="result-view-foto" class="result"></div>
+            </div>
+
+            <div class="test-group">
+                <h3><span class="badge get">GET</span> Información de foto</h3>
+                <p>ID del Carnet:</p>
+                <input type="number" id="carnetId3" placeholder="Ej: 1">
+                <button onclick="infoFoto()">Ver Información</button>
+                <div id="result-info-foto" class="result"></div>
+            </div>
+        </div>
+
+        <!-- 3. Generación de Carnets -->
+        <div class="section">
+            <h2>📄 3. Generación de Carnets</h2>
+
+            <div class="test-group">
+                <h3><span class="badge get">GET</span> Vista previa del carnet</h3>
+                <p>ID del Carnet:</p>
+                <input type="number" id="carnetId4" placeholder="Ej: 1">
+                <button onclick="previewCarnet()">Ver Vista Previa</button>
+                <div id="result-preview" class="result"></div>
+            </div>
+
+            <div class="test-group">
+                <h3><span class="badge post">POST</span> Generar PDF del carnet</h3>
+                <p>ID del Carnet:</p>
+                <input type="number" id="carnetId5" placeholder="Ej: 1">
+                <button onclick="generatePDF()">Generar PDF</button>
+                <div id="result-generate" class="result"></div>
+            </div>
+
+            <div class="test-group">
+                <h3><span class="badge get">GET</span> Historial de generaciones</h3>
+                <p>ID del Carnet:</p>
+                <input type="number" id="carnetId6" placeholder="Ej: 1">
+                <button onclick="historial()">Ver Historial</button>
+                <div id="result-historial" class="result"></div>
+            </div>
+        </div>
+
+        <!-- 4. Consulta de Carnets -->
+        <div class="section">
+            <h2>🔍 4. Consulta de Carnets</h2>
+
+            <div class="test-group">
+                <h3><span class="badge get">GET</span> Buscar carnets</h3>
+                <p>Buscar por nombre, identificación, club, etc:</p>
+                <input type="text" id="searchTerm" placeholder="Ej: Juan">
+                <button onclick="searchCarnets()">Buscar</button>
+                <div id="result-search" class="result"></div>
+            </div>
+
+            <div class="test-group">
+                <h3><span class="badge get">GET</span> Obtener carnet por ID</h3>
+                <p>ID del Carnet:</p>
+                <input type="number" id="carnetId7" placeholder="Ej: 1">
+                <button onclick="getCarnet()">Obtener Carnet</button>
+                <div id="result-get-carnet" class="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+
+        function getToken() {
+            const token = document.getElementById('token').value.trim();
+            if (!token) {
+                alert('Por favor ingresa tu token de autenticación');
+                return null;
+            }
+            return token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+        }
+
+        function showResult(elementId, data, isError = false) {
+            const el = document.getElementById(elementId);
+            el.style.display = 'block';
+            el.className = `result ${isError ? 'error' : 'success'}`;
+            el.textContent = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+        }
+
+        function showLoading(button) {
+            button.disabled = true;
+            button.innerHTML += '<span class="loading"></span>';
+        }
+
+        function hideLoading(button, originalText) {
+            button.disabled = false;
+            button.innerHTML = originalText;
+        }
+
+        // 1. Parámetros
+        async function getParametros() {
+            const token = getToken();
+            if (!token) return;
+
+            const fedId = document.getElementById('fedId1').value;
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-parametros/federacion/${fedId}`, {
+                    headers: { 'Authorization': token }
+                });
+                const data = await response.json();
+                showResult('result-get-params', data, !response.ok);
+            } catch (error) {
+                showResult('result-get-params', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function saveParametros() {
+            const token = getToken();
+            if (!token) return;
+
+            const data = {
+                Id_Federacion: parseInt(document.getElementById('fedId2').value),
+                Nombre_Institucion: document.getElementById('nombreInst').value,
+                Color_Primario: document.getElementById('colorPrimario').value,
+                Color_Secundario: document.getElementById('colorSecundario').value,
+                Texto_Pie: document.getElementById('textoPie').value,
+                Vigencia_Meses: parseInt(document.getElementById('vigencia').value)
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-parametros`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('result-save-params', result, !response.ok);
+            } catch (error) {
+                showResult('result-save-params', `Error: ${error.message}`, true);
+            }
+        }
+
+        function previewLogo(input) {
+            const preview = document.getElementById('logoPreview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" class="preview-img">`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function uploadLogo() {
+            const token = getToken();
+            if (!token) return;
+
+            const fedId = document.getElementById('fedId3').value;
+            const file = document.getElementById('logoFile').files[0];
+
+            if (!file) {
+                alert('Por favor selecciona un archivo');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('logo', file);
+
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-parametros/logo/${fedId}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': token },
+                    body: formData
+                });
+                const data = await response.json();
+                showResult('result-upload-logo', data, !response.ok);
+            } catch (error) {
+                showResult('result-upload-logo', `Error: ${error.message}`, true);
+            }
+        }
+
+        // 2. Fotos
+        function previewFoto(input) {
+            const preview = document.getElementById('fotoPreview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" class="preview-img">`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function uploadFoto() {
+            const token = getToken();
+            if (!token) return;
+
+            const carnetId = document.getElementById('carnetId1').value;
+            const file = document.getElementById('fotoFile').files[0];
+
+            if (!file) {
+                alert('Por favor selecciona un archivo');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('foto', file);
+
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-fotos/${carnetId}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': token },
+                    body: formData
+                });
+                const data = await response.json();
+                showResult('result-upload-foto', data, !response.ok);
+            } catch (error) {
+                showResult('result-upload-foto', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function viewFoto() {
+            const token = getToken();
+            if (!token) return;
+
+            const carnetId = document.getElementById('carnetId2').value;
+            const url = `${API_URL}/api/carnet-fotos/${carnetId}`;
+
+            const result = document.getElementById('result-view-foto');
+            result.style.display = 'block';
+            result.className = 'result success';
+            result.innerHTML = `<img src="${url}" style="max-width: 100%; border-radius: 6px;" onerror="this.style.display='none'; this.parentElement.textContent='Error: Foto no encontrada'">`;
+        }
+
+        async function infoFoto() {
+            const token = getToken();
+            if (!token) return;
+
+            const carnetId = document.getElementById('carnetId3').value;
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-fotos/info/${carnetId}`, {
+                    headers: { 'Authorization': token }
+                });
+                const data = await response.json();
+                showResult('result-info-foto', data, !response.ok);
+            } catch (error) {
+                showResult('result-info-foto', `Error: ${error.message}`, true);
+            }
+        }
+
+        // 3. Generación
+        function previewCarnet() {
+            const carnetId = document.getElementById('carnetId4').value;
+            const url = `${API_URL}/api/carnet-generar/preview/${carnetId}`;
+
+            window.open(url, '_blank');
+            showResult('result-preview', 'Vista previa abierta en nueva pestaña', false);
+        }
+
+        async function generatePDF() {
+            const token = getToken();
+            if (!token) return;
+
+            const carnetId = document.getElementById('carnetId5').value;
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-generar/individual/${carnetId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ tipoGeneracion: 'creacion' })
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `carnet-${carnetId}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    showResult('result-generate', 'PDF generado y descargado exitosamente', false);
+                } else {
+                    const error = await response.json();
+                    showResult('result-generate', error, true);
+                }
+            } catch (error) {
+                showResult('result-generate', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function historial() {
+            const token = getToken();
+            if (!token) return;
+
+            const carnetId = document.getElementById('carnetId6').value;
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-generar/historial/${carnetId}`, {
+                    headers: { 'Authorization': token }
+                });
+                const data = await response.json();
+                showResult('result-historial', data, !response.ok);
+            } catch (error) {
+                showResult('result-historial', `Error: ${error.message}`, true);
+            }
+        }
+
+        // 4. Consulta
+        async function searchCarnets() {
+            const token = getToken();
+            if (!token) return;
+
+            const search = document.getElementById('searchTerm').value;
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-federacion?search=${encodeURIComponent(search)}`, {
+                    headers: { 'Authorization': token }
+                });
+                const data = await response.json();
+                showResult('result-search', data, !response.ok);
+            } catch (error) {
+                showResult('result-search', `Error: ${error.message}`, true);
+            }
+        }
+
+        async function getCarnet() {
+            const token = getToken();
+            if (!token) return;
+
+            const carnetId = document.getElementById('carnetId7').value;
+            try {
+                const response = await fetch(`${API_URL}/api/carnet-federacion/${carnetId}`, {
+                    headers: { 'Authorization': token }
+                });
+                const data = await response.json();
+                showResult('result-get-carnet', data, !response.ok);
+            } catch (error) {
+                showResult('result-get-carnet', `Error: ${error.message}`, true);
+            }
+        }
+    </script>
+</body>
+</html>

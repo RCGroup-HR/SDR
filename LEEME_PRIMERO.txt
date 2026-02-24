@@ -1,0 +1,116 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║     🎴 SISTEMA DE CARNETS - INSTALACIÓN Y USO 🎴              ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  ⚡ PASO 1: INSTALAR BASE DE DATOS (Solo 1 vez)              │
+└───────────────────────────────────────────────────────────────┘
+
+OPCIÓN A (Más Fácil):
+1. Haz click derecho en: instalar-carnets.bat
+2. "Ejecutar como administrador"
+3. Espera a que termine
+
+OPCIÓN B (PowerShell):
+1. Click derecho en: instalar-carnets.ps1
+2. "Ejecutar con PowerShell"
+
+OPCIÓN C (MySQL Workbench):
+1. Abre MySQL Workbench
+2. Abre archivo: backend\sql\INSTALAR_SISTEMA_CARNETS.sql
+3. Ejecuta todo (Ctrl+Shift+Enter)
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  🌐 PASO 2: ACCEDER AL SISTEMA                               │
+└───────────────────────────────────────────────────────────────┘
+
+1. Abre tu navegador
+
+2. Ve a: http://localhost:5174
+
+3. Inicia sesión con tu usuario
+
+4. En el menú lateral:
+   📋 Mantenimientos
+      └── 🎴 Gestión de Carnets  ← ¡CLICK AQUÍ!
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  ⚠️ PROBLEMAS COMUNES                                        │
+└───────────────────────────────────────────────────────────────┘
+
+ERROR: "No veo el menú 'Gestión de Carnets'"
+SOLUCIÓN:
+  ✓ Refresca la página (F5)
+  ✓ Verifica que tengas permisos para "carnet_federacion"
+
+ERROR: "Error 404" o "Error al cargar carnets"
+SOLUCIÓN:
+  ✓ Ejecuta el PASO 1 (instalar-carnets.bat)
+  ✓ Verifica que el backend esté corriendo en puerto 3000
+
+ERROR: "Error 500"
+SOLUCIÓN:
+  ✓ Ejecuta el script SQL (PASO 1)
+  ✓ Verifica que la base de datos sea: sdr_domino
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  📂 ARCHIVOS IMPORTANTES                                      │
+└───────────────────────────────────────────────────────────────┘
+
+📄 LEEME_PRIMERO.txt           ← Estás aquí
+📄 ACCESO_DIRECTO.txt          ← Resumen rápido
+📄 COMO_ACCEDER_AL_SISTEMA.md  ← Guía detallada
+📄 instalar-carnets.bat        ← Script de instalación (Windows)
+📄 instalar-carnets.ps1        ← Script de instalación (PowerShell)
+📄 PROBAR_CARNETS.html         ← Pruebas de APIs
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  ✨ ¿QUÉ PUEDES HACER?                                       │
+└───────────────────────────────────────────────────────────────┘
+
+✅ Configurar parámetros del carnet (colores, institución, etc)
+✅ Subir logos de tu institución
+✅ Subir fotos de jugadores (se optimizan automáticamente)
+✅ Ver vista previa del carnet antes de generar
+✅ Generar PDFs profesionales de carnets
+✅ Buscar carnets por nombre, ID, club
+✅ Ver historial de generaciones
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  🚀 INICIO RÁPIDO                                            │
+└───────────────────────────────────────────────────────────────┘
+
+1. Ejecuta: instalar-carnets.bat
+2. Abre: http://localhost:5174
+3. Login
+4. Menú → Mantenimientos → Gestión de Carnets
+5. Click "Configurar Parámetros" (primera vez)
+6. ¡Listo para generar carnets!
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  📞 NECESITAS AYUDA?                                         │
+└───────────────────────────────────────────────────────────────┘
+
+Lee los siguientes archivos en orden:
+1. ACCESO_DIRECTO.txt (resumen)
+2. COMO_ACCEDER_AL_SISTEMA.md (paso a paso)
+3. GUIA_COMPLETA_PRUEBAS.md (guía completa)
+4. DOCUMENTACION_SISTEMA_CARNETS.md (técnico)
+
+
+════════════════════════════════════════════════════════════════
+
+           ¡El sistema está listo para usar! 🎉
+
+     Solo ejecuta el script SQL y accede desde el menú
+
+════════════════════════════════════════════════════════════════

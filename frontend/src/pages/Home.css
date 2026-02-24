@@ -1,0 +1,150 @@
+.home-page {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: calc(100vh - 60px);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-header-bar {
+  background: linear-gradient(135deg, var(--user-primary-color) 0%, var(--user-primary-dark) 100%);
+  color: white;
+  padding: 10px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.home-header-bar h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--header-text-color) \!important;
+}
+
+.home-content {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-subtitle {
+  color: #4a5568;
+  font-size: 18px;
+  margin: 0 0 24px 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.user-card {
+  background: white;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+
+.user-card h3 {
+  color: #2d3748;
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 12px;
+}
+
+.user-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  padding: 12px 0;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #4a5568;
+  width: 100px;
+}
+
+.info-value {
+  color: #2d3748;
+  flex: 1;
+}
+
+.info-banner {
+  background: white;
+  border-left: 4px solid var(--user-primary-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.info-banner h3 {
+  color: #2d3748;
+  margin: 0 0 12px 0;
+  font-size: 20px;
+}
+
+.info-banner p {
+  color: #4a5568;
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+}
+
+.info-banner ul {
+  margin: 0;
+  padding-left: 24px;
+  color: #4a5568;
+  line-height: 1.8;
+}
+
+.info-banner li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .home-content {
+    padding: 16px;
+  }
+
+  .home-header-bar h2 {
+    font-size: 18px;
+  }
+
+  .welcome-subtitle {
+    font-size: 16px;
+  }
+
+  .user-card {
+    padding: 20px;
+  }
+
+  .user-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-item {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .info-label {
+    width: 100%;
+  }
+}

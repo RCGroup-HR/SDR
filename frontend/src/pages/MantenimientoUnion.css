@@ -1,0 +1,47 @@
+/* Reutilizamos los estilos de Equipos.css directamente */
+/* Como el componente usa las mismas clases, heredará todos los estilos automáticamente */
+
+.torneo-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.torneo-selector label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.torneo-selector select {
+  min-width: 250px;
+}
+
+.id-union-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.id-union-control label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.selected-row {
+  background-color: #e3f2fd !important;
+}
+
+.selected-row:hover {
+  background-color: #bbdefb !important;
+}
+
+.table-flag {
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  vertical-align: middle;
+}

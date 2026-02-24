@@ -1,0 +1,33 @@
+/* Reutilizamos los estilos de Equipos.css y Usuarios.css directamente */
+/* Como el componente usa las mismas clases, heredará todos los estilos automáticamente */
+
+.table-flag {
+  width: 48px;
+  height: 36px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.actions-cell {
+  text-align: center;
+}
