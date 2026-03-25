@@ -309,8 +309,8 @@ const CorreccionPaisJugador: React.FC = () => {
                         <span className="cpj-pais-sigla">{ep.PaisSiglas}</span>
                       </div>
                       <div className="cpj-genero-chips">
-                        <span className="cpj-chip-m">♂ {ep.TotalM}</span>
-                        <span className="cpj-chip-f">♀ {ep.TotalF}</span>
+                        <span className="cpj-chip-m">♂ <strong>{Number(ep.TotalM).toLocaleString()}</strong></span>
+                        <span className="cpj-chip-f">♀ <strong>{Number(ep.TotalF).toLocaleString()}</strong></span>
                       </div>
                       <div className="cpj-pais-barra-wrap">
                         <div className="cpj-pais-barra" style={{ width: `${pct}%` }} />
@@ -411,8 +411,8 @@ const CorreccionPaisJugador: React.FC = () => {
                         <div className="cpj-scard-nombre">{ep.PaisNombre}</div>
                         <div className="cpj-scard-sigla-gen">
                           <span className="cpj-scard-sigla">{ep.PaisSiglas}</span>
-                          <span className="cpj-chip-m-sm">♂ {ep.TotalM}</span>
-                          <span className="cpj-chip-f-sm">♀ {ep.TotalF}</span>
+                          <span className="cpj-chip-m-sm">♂ <strong>{Number(ep.TotalM).toLocaleString()}</strong></span>
+                          <span className="cpj-chip-f-sm">♀ <strong>{Number(ep.TotalF).toLocaleString()}</strong></span>
                         </div>
                       </div>
                       <div className="cpj-scard-right">
