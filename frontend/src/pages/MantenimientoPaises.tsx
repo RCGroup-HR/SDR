@@ -27,6 +27,8 @@ const MantenimientoPaises: React.FC = () => {
   });
   const [banderaFile, setBanderaFile] = useState<File | null>(null);
   const [banderaPreview, setBanderaPreview] = useState<string | null>(null);
+  const [sortCol, setSortCol] = useState<string>('');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
   useEffect(() => {
     cargarDatos();
@@ -163,6 +165,33 @@ const MantenimientoPaises: React.FC = () => {
     }
   };
 
+  const handleSort = (col: string) => {
+    if (sortCol === col) {
+      setSortDir(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortCol(col);
+      setSortDir('asc');
+    }
+  };
+
+  const sortedPaises = [...paisesFiltrados].sort((a, b) => {
+    if (!sortCol) return 0;
+    if (sortCol === 'ID') return sortDir === 'asc' ? a.Id - b.Id : b.Id - a.Id;
+    let va = '';
+    let vb = '';
+    if (sortCol === 'Pais') { va = a.Pais || ''; vb = b.Pais || ''; }
+    if (sortCol === 'Siglas') { va = a.Siglas || ''; vb = b.Siglas || ''; }
+    if (sortCol === 'Capital') { va = a.Capital || ''; vb = b.Capital || ''; }
+    if (sortCol === 'Continente') { va = a.Continente || ''; vb = b.Continente || ''; }
+    return sortDir === 'asc' ? va.localeCompare(vb, 'es', { sensitivity: 'base' }) : vb.localeCompare(va, 'es', { sensitivity: 'base' });
+  });
+
+  const SortIcon = ({ col }: { col: string }) => (
+    <span style={{ marginLeft: '4px', opacity: sortCol === col ? 1 : 0.3, fontSize: '11px' }}>
+      {sortCol === col ? (sortDir === 'asc' ? '▲' : '▼') : '⇅'}
+    </span>
+  );
+
   if (loading) {
     return (
       <div className="equipos-page">
@@ -223,38 +252,29 @@ const MantenimientoPaises: React.FC = () => {
             <table className="equipos-table">
               <thead>
                 <tr>
-                  <th style={{ width: '80px' }}>ID</th>
-                  <th>País</th>
-                  <th style={{ width: '100px' }}>Siglas</th>
-                  <th style={{ width: '150px' }}>Capital</th>
-                  <th style={{ width: '120px' }}>Continente</th>
+                  <th style={{ width: '80px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('ID')}>ID <SortIcon col="ID" /></th>
+                  <th style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('Pais')}>País <SortIcon col="Pais" /></th>
+                  <th style={{ width: '100px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('Siglas')}>Siglas <SortIcon col="Siglas" /></th>
+                  <th style={{ width: '150px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('Capital')}>Capital <SortIcon col="Capital" /></th>
+                  <th style={{ width: '120px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('Continente')}>Continente <SortIcon col="Continente" /></th>
                   <th style={{ width: '100px', textAlign: 'center' }}>Bandera</th>
                   <th style={{ width: '200px', textAlign: 'center' }}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {paisesFiltrados.map((pais) => (
+                {sortedPaises.map((pais) => (
                   <tr key={pais.Id}>
-                    <td style={{ fontWeight: '600' }}>{pais.Id}</td>
+                    <td>{pais.Id}</td>
                     <td>{pais.Pais}</td>
-                    <td style={{ fontWeight: '600', color: '#4a7c9e' }}>{pais.Siglas}</td>
+                    <td><span className="pais-siglas">{pais.Siglas}</span></td>
                     <td>{pais.Capital || '-'}</td>
                     <td>{pais.Continente || '-'}</td>
                     <td style={{ textAlign: 'center' }}>
                       <img
-                        src={`/assets/flags/${pais.Siglas.toLowerCase()}.jpg?t=${Date.now()}`}
+                        src={`/assets/flags/${pais.Siglas.toLowerCase()}.jpg`}
                         alt={pais.Pais}
                         className="table-flag"
-                        style={{
-                          width: '48px',
-                          height: '36px',
-                          objectFit: 'cover',
-                          border: '1px solid #ddd',
-                          borderRadius: '4px'
-                        }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                       />
                     </td>
                     <td className="actions-cell">

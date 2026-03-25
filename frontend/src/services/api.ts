@@ -62,8 +62,9 @@ export const healthCheck = async () => {
 };
 
 export const torneoService = {
-  getAll: async () => {
-    const response = await api.get<{ success: boolean; data: Torneo[] }>('/torneos');
+  getAll: async (options?: { soloActivos?: boolean }) => {
+    const params = options?.soloActivos ? { soloActivos: 'true' } : {};
+    const response = await api.get<{ success: boolean; data: Torneo[] }>('/torneos', { params });
     return response.data;
   },
 
@@ -160,6 +161,32 @@ export const carnetFederacionService = {
   getAll: async () => {
     const response = await api.get<CarnetFederacion[]>('/carnet-federacion');
     return { data: response.data };
+  },
+
+  getWithFilters: async (filters: {
+    federacion?: string;
+    pais?: string;
+    estatus?: string;
+    tieneFoto?: string;
+    rangeStart?: string;
+    rangeEnd?: string;
+    search?: string;
+  }) => {
+    const params: any = {};
+    if (filters.federacion) params.federacion = filters.federacion;
+    if (filters.pais) params.pais = filters.pais;
+    if (filters.estatus !== undefined && filters.estatus !== '') params.estatus = filters.estatus;
+    if (filters.tieneFoto !== undefined && filters.tieneFoto !== '') params.tieneFoto = filters.tieneFoto;
+    if (filters.rangeStart) params.rangeStart = filters.rangeStart;
+    if (filters.rangeEnd) params.rangeEnd = filters.rangeEnd;
+    if (filters.search) params.search = filters.search;
+    const response = await api.get<any[]>('/carnet-federacion', { params });
+    return response.data;
+  },
+
+  printBatch: async (ids: number[]) => {
+    const response = await api.post<any[]>('/carnet-federacion/print-batch', { ids });
+    return response.data;
   },
 
   getSiguienteCarnet: async (idFederacion: number) => {
