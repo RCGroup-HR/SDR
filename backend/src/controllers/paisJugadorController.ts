@@ -118,8 +118,8 @@ export const getEstadisticas = async (_req: AuthRequest, res: Response) => {
         p.Siglas AS PaisSiglas,
         p.Ruta AS PaisRuta,
         COUNT(cj.Id) AS Total,
-        SUM(CASE WHEN cj.Genero = 'M' THEN 1 ELSE 0 END) AS TotalM,
-        SUM(CASE WHEN cj.Genero = 'F' THEN 1 ELSE 0 END) AS TotalF
+        CAST(SUM(CASE WHEN cj.Genero = 'M' THEN 1 ELSE 0 END) AS SIGNED) AS TotalM,
+        CAST(SUM(CASE WHEN cj.Genero = 'F' THEN 1 ELSE 0 END) AS SIGNED) AS TotalF
       FROM paises p
       INNER JOIN carnetjugadores cj ON cj.Id_Pais = p.Id
       GROUP BY p.Id, p.Pais, p.Siglas, p.Ruta
