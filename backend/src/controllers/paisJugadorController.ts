@@ -89,7 +89,8 @@ export const getJugadoresPorPais = async (req: AuthRequest, res: Response) => {
               cj.Genero,
               cj.Id_Pais,
               p.Pais AS PaisNombre,
-              p.Siglas AS PaisSiglas
+              p.Siglas AS PaisSiglas,
+              p.Ruta AS PaisRuta
        FROM carnetjugadores cj
        LEFT JOIN paises p ON p.Id = cj.Id_Pais
        WHERE 1=1 ${whereExtra}
@@ -115,10 +116,13 @@ export const getEstadisticas = async (_req: AuthRequest, res: Response) => {
         p.Id,
         p.Pais AS PaisNombre,
         p.Siglas AS PaisSiglas,
-        COUNT(cj.Id) AS Total
+        p.Ruta AS PaisRuta,
+        COUNT(cj.Id) AS Total,
+        SUM(CASE WHEN cj.Genero = 'M' THEN 1 ELSE 0 END) AS TotalM,
+        SUM(CASE WHEN cj.Genero = 'F' THEN 1 ELSE 0 END) AS TotalF
       FROM paises p
       INNER JOIN carnetjugadores cj ON cj.Id_Pais = p.Id
-      GROUP BY p.Id, p.Pais, p.Siglas
+      GROUP BY p.Id, p.Pais, p.Siglas, p.Ruta
       ORDER BY Total DESC
     `);
 

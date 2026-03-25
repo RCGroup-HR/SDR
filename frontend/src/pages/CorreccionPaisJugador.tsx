@@ -12,29 +12,29 @@ interface Jugador {
   PaisNombre?: string; PaisSiglas?: string;
 }
 interface Pais { Id: number; Pais: string; Siglas: string; }
-interface EstPais { Id: number; PaisNombre: string; PaisSiglas: string; Total: number; }
+interface EstPais { Id: number; PaisNombre: string; PaisSiglas: string; PaisRuta?: string; Total: number; TotalM: number; TotalF: number; }
 interface Estadisticas { porPais: EstPais[]; sinPais: number; total: number; }
 
-/* ─── ISO2 flag map ─────────────────────────────────────── */
-const PAIS_ISO2: Record<string, string> = {
-  PAN:'pa', CRC:'cr', USA:'us', RD:'do', DOM:'do', MEX:'mx', COL:'co',
-  VEN:'ve', ARG:'ar', BRA:'br', CHI:'cl', PER:'pe', URU:'uy', PAR:'py',
-  CUB:'cu', GUA:'gt', HON:'hn', SLV:'sv', NIC:'ni', PRI:'pr', JAM:'jm',
-  CAN:'ca', GBR:'gb', ESP:'es', FRA:'fr', ITA:'it', GER:'de', POR:'pt',
-  PA:'pa', CR:'cr', US:'us', DO:'do', MX:'mx', CO:'co', VE:'ve', AR:'ar',
+/* ─── Flag helpers ──────────────────────────────────────── */
+// Construye la URL de bandera: usa Ruta de la BD si existe, si no intenta con sigla
+const buildFlagUrl = (sigla: string, ruta?: string): string | null => {
+  if (ruta && ruta.trim()) {
+    // Ruta puede ser "/assets/flags/pa.jpg", "pa.jpg" o solo "pa"
+    if (ruta.startsWith('/') || ruta.startsWith('http')) return ruta;
+    return `/assets/flags/${ruta}`;
+  }
+  const s = (sigla || '').toLowerCase();
+  if (!s) return null;
+  return `/assets/flags/${s}.jpg`;
 };
-const flagSrc = (sigla: string) => {
-  const s = (sigla || '').toUpperCase();
-  const iso2 = PAIS_ISO2[s] || (s.length === 2 ? s.toLowerCase() : null);
-  return iso2 ? `/assets/flags/${iso2}.jpg` : null;
-};
-const FlagImg: React.FC<{ sigla: string; size?: number }> = ({ sigla, size = 22 }) => {
-  const src = flagSrc(sigla);
-  if (!src) return <span style={{ fontSize: size * 0.8, lineHeight: 1 }}>🏳️</span>;
+
+const FlagImg: React.FC<{ sigla: string; ruta?: string; size?: number }> = ({ sigla, ruta, size = 22 }) => {
+  const src = buildFlagUrl(sigla, ruta);
+  if (!src) return null;
   return (
     <img src={src} alt={sigla}
       style={{ width: size, height: Math.round(size * 0.67), borderRadius: 2, objectFit: 'cover', flexShrink: 0 }}
-      onError={(e) => { (e.target as HTMLImageElement).src = ''; (e.target as HTMLImageElement).style.display = 'none'; }} />
+      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
   );
 };
 
@@ -303,10 +303,14 @@ const CorreccionPaisJugador: React.FC = () => {
                     {/* Fila clickable */}
                     <div className="cpj-pais-fila" onClick={() => handleClickPais(ep)}>
                       <span className="cpj-pais-rank">#{i + 1}</span>
-                      <FlagImg sigla={ep.PaisSiglas} size={28} />
+                      <FlagImg sigla={ep.PaisSiglas} ruta={ep.PaisRuta} size={28} />
                       <div className="cpj-pais-info">
                         <span className="cpj-pais-nombre">{ep.PaisNombre}</span>
                         <span className="cpj-pais-sigla">{ep.PaisSiglas}</span>
+                      </div>
+                      <div className="cpj-genero-chips">
+                        <span className="cpj-chip-m">♂ {ep.TotalM}</span>
+                        <span className="cpj-chip-f">♀ {ep.TotalF}</span>
                       </div>
                       <div className="cpj-pais-barra-wrap">
                         <div className="cpj-pais-barra" style={{ width: `${pct}%` }} />
@@ -402,10 +406,14 @@ const CorreccionPaisJugador: React.FC = () => {
                   return (
                     <div key={ep.Id} className="cpj-scard" onClick={() => { setTab('porpais'); handleClickPais(ep); }}>
                       <div className="cpj-scard-rank">#{i + 1}</div>
-                      <div className="cpj-scard-flag"><FlagImg sigla={ep.PaisSiglas} size={36} /></div>
+                      <div className="cpj-scard-flag"><FlagImg sigla={ep.PaisSiglas} ruta={ep.PaisRuta} size={36} /></div>
                       <div className="cpj-scard-info">
                         <div className="cpj-scard-nombre">{ep.PaisNombre}</div>
-                        <div className="cpj-scard-sigla">{ep.PaisSiglas}</div>
+                        <div className="cpj-scard-sigla-gen">
+                          <span className="cpj-scard-sigla">{ep.PaisSiglas}</span>
+                          <span className="cpj-chip-m-sm">♂ {ep.TotalM}</span>
+                          <span className="cpj-chip-f-sm">♀ {ep.TotalF}</span>
+                        </div>
                       </div>
                       <div className="cpj-scard-right">
                         <span className="cpj-scard-total">{ep.Total.toLocaleString()}</span>
