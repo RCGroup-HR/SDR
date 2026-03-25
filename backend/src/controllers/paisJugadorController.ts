@@ -50,7 +50,12 @@ export const getJugadoresSinPais = async (req: AuthRequest, res: Response) => {
     const [rows]: any = await pool.query(
       `SELECT cj.Id, cj.Carnet, cj.Identificacion,
               CONCAT(cj.Nombre, ' ', cj.Apellidos) AS NombreCompleto,
-              cj.Genero
+              cj.Genero,
+              (SELECT SUBSTRING_INDEX(cj2.Identificacion, '-', 1)
+               FROM carnetjugadores cj2
+               WHERE cj2.Carnet = cj.Carnet
+                 AND cj2.Identificacion LIKE '%-%'
+               LIMIT 1) AS prefijoDetectado
        FROM carnetjugadores cj
        WHERE ${where}
        ORDER BY cj.Identificacion
@@ -61,6 +66,29 @@ export const getJugadoresSinPais = async (req: AuthRequest, res: Response) => {
   } catch (err: any) {
     console.error('getJugadoresSinPais error:', err);
     return res.status(500).json({ message: 'Error al obtener jugadores' });
+  }
+};
+
+// ─────────────────────────────────────────────────────────────
+// POST /api/pais-jugador/asignar-prefijo
+// Actualiza Identificacion de jugadores "sin prefijo" añadiéndoles uno
+// Body: { prefijo: string }  — e.g. { prefijo: "SAI" }
+// ─────────────────────────────────────────────────────────────
+export const asignarPrefijo = async (req: AuthRequest, res: Response) => {
+  try {
+    const { prefijo } = req.body;
+    if (!prefijo) return res.status(400).json({ message: 'Falta prefijo' });
+
+    const [result]: any = await pool.query(
+      `UPDATE carnetjugadores
+       SET Identificacion = CONCAT(?, '-', Identificacion)
+       WHERE Identificacion NOT LIKE '%-%'`,
+      [prefijo.trim().toUpperCase()]
+    );
+    return res.json({ success: true, actualizados: result.affectedRows });
+  } catch (err: any) {
+    console.error('asignarPrefijo error:', err);
+    return res.status(500).json({ message: 'Error al asignar prefijo' });
   }
 };
 
